@@ -2527,9 +2527,15 @@ static const char *usage = "\n"
 	"	-c	scan on currently tuned transponder only\n"
 	"	-v 	verbose (repeat for more)\n"
 	"	-q 	quiet (repeat for less)\n"
+#if defined(ANDROID)
+	"	-a N	use DVB /dev/dvbN\n"
+	"	-f N	use DVB /dev/dvb?.frontendN\n"
+	"	-d N	use DVB /dev/dvb?.demuxN\n"
+#else
 	"	-a N	use DVB /dev/dvb/adapterN/\n"
 	"	-f N	use DVB /dev/dvb/adapter?/frontendN\n"
 	"	-d N	use DVB /dev/dvb/adapter?/demuxN\n"
+#endif
 	"	-s N	use DiSEqC switch position N (DVB-S only)\n"
 	"	-i N	spectral inversion setting (0: off, 1: on, 2: auto [default])\n"
 	"	-n	evaluate NIT-other for full network scan (slow!)\n"
@@ -2735,12 +2741,19 @@ int main (int argc, char **argv)
 	}
 	if (initial)
 		info("scanning %s\n", initial);
+#if defined(ANDROID)
+	snprintf (frontend_devname, sizeof(frontend_devname),
+		  "/dev/dvb%i.frontend%i", adapter, frontend);
 
+	snprintf (demux_devname, sizeof(demux_devname),
+		  "/dev/dvb%i.demux%i", adapter, demux);
+#else
 	snprintf (frontend_devname, sizeof(frontend_devname),
 		  "/dev/dvb/adapter%i/frontend%i", adapter, frontend);
 
 	snprintf (demux_devname, sizeof(demux_devname),
 		  "/dev/dvb/adapter%i/demux%i", adapter, demux);
+#endif
 	info("using '%s' and '%s'\n", frontend_devname, demux_devname);
 
 	for (i = 0; i < MAX_RUNNING; i++)

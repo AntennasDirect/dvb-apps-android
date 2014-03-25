@@ -316,13 +316,19 @@ int main(int argc, char **argv)
 		fprintf (stderr, usage, argv[0]);
 		return -1;
 	}
+#if defined(ANDROID)
+	snprintf (FRONTEND_DEV, sizeof(FRONTEND_DEV),
+		  "/dev/dvb%i.frontend%i", adapter, frontend);
 
+	snprintf (DEMUX_DEV, sizeof(DEMUX_DEV),
+		  "/dev/dvb%i.demux%i", adapter, demux);
+#else
 	snprintf (FRONTEND_DEV, sizeof(FRONTEND_DEV),
 		  "/dev/dvb/adapter%i/frontend%i", adapter, frontend);
 
 	snprintf (DEMUX_DEV, sizeof(DEMUX_DEV),
 		  "/dev/dvb/adapter%i/demux%i", adapter, demux);
-
+#endif
 	printf ("using '%s' and '%s'\n", FRONTEND_DEV, DEMUX_DEV);
 
 	if (!confname)

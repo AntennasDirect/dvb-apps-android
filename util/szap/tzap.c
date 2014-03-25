@@ -470,7 +470,11 @@ static char *usage =
 	"     -d number : use given demux (default 0)\n"
 	"     -c file   : read channels list from 'file'\n"
 	"     -x        : exit after tuning\n"
+#if defined(ANDROID)
+	"     -r        : set up /dev/dvbX.dvr0 for TS recording\n"
+#else
 	"     -r        : set up /dev/dvb/adapterX/dvr0 for TS recording\n"
+#endif
 	"     -p        : add pat and pmt to TS recording (implies -r)\n"
 	"     -s        : only print summary\n"
 	"     -S        : run silently (no output)\n"
@@ -554,7 +558,25 @@ int main(int argc, char **argv)
 		fprintf (stderr, usage, argv[0]);
 		return -1;
 	}
+#if defined(ANDROID)
+	snprintf(FRONTEND_DEV,
+		 sizeof(FRONTEND_DEV),
+		 "/dev/dvb%i.frontend%i",
+	  	 adapter,
+	  	 frontend);
 
+	snprintf(DEMUX_DEV,
+		 sizeof(DEMUX_DEV),
+		 "/dev/dvb%i.demux%i",
+	  	 adapter,
+	  	 demux);
+
+	snprintf(DVR_DEV,
+		 sizeof(DVR_DEV),
+		 "/dev/dvb%i.dvr%i",
+	  	 adapter,
+	  	 demux);
+#else
 	snprintf(FRONTEND_DEV,
 		 sizeof(FRONTEND_DEV),
 		 "/dev/dvb/adapter%i/frontend%i",
@@ -572,7 +594,7 @@ int main(int argc, char **argv)
 		 "/dev/dvb/adapter%i/dvr%i",
 	  	 adapter,
 	  	 demux);
-
+#endif
 	if (silent < 2)
 		fprintf (stderr,"using '%s' and '%s'\n", FRONTEND_DEV, DEMUX_DEV);
 

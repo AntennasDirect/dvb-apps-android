@@ -34,7 +34,11 @@
 #include <linux/dvb/ca.h>
 #include <libdvben50221/en50221_app_tags.h>
 
+#if defined(ANDROID)
+#define CA_NODE "/dev/dvb0.ca0"
+#else
 #define CA_NODE "/dev/dvb/adapter0/ca0"
+#endif
 
 static int dst_comms(int cafd, uint32_t tag, uint32_t function, struct ca_msg *msg)
 {

@@ -64,10 +64,15 @@
  * ^name:frequency_MHz:polarization:sat_no:symbolrate:vpid:apid:?:service_id$
  */
 
-
+#if defined(ANDROID)
+#define FRONTENDDEVICE "/dev/dvb%d.frontend%d"
+#define DEMUXDEVICE "/dev/dvb%d.demux%d"
+#define AUDIODEVICE "/dev/dvb%d.audio%d"
+#else
 #define FRONTENDDEVICE "/dev/dvb/adapter%d/frontend%d"
 #define DEMUXDEVICE "/dev/dvb/adapter%d/demux%d"
 #define AUDIODEVICE "/dev/dvb/adapter%d/audio%d"
+#endif
 
 static struct lnb_types_st lnb_type;
 
@@ -86,7 +91,11 @@ static char *usage_str =
 	"     -b        : enable Audio Bypass (default no)\n"
 	"     -x        : exit after tuning\n"
 	"     -H        : human readable output\n"
+#if defined(ANDROID)
+	"     -r        : set up /dev/dvbX.dvr0 for TS recording\n"
+#else
 	"     -r        : set up /dev/dvb/adapterX/dvr0 for TS recording\n"
+#endif
 	"     -l lnb-type (DVB-S Only) (use -l help to print types) or \n"
 	"     -l low[,high[,switch]] in Mhz\n"
 	"     -i        : run interactively, allowing you to type in channel names\n"
