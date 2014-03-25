@@ -1,0 +1,160 @@
+LOCAL_PATH:= $(call my-dir)
+
+# libdvbapi
+include $(CLEAR_VARS)
+
+libdvbapi_files := \
+	libdvbapi/dvbaudio.c \
+	libdvbapi/dvbca.c \
+	libdvbapi/dvbdemux.c \
+	libdvbapi/dvbfe.c \
+	libdvbapi/dvbnet.c \
+	libdvbapi/dvbvideo.c
+
+LOCAL_MODULE := libdvbapi
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libdvbapi_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libc
+
+include $(BUILD_SHARED_LIBRARY)
+
+# libdvbcfg
+include $(CLEAR_VARS)
+
+libdvbcfg_files := \
+	libdvbcfg/getline.c \
+	libdvbcfg/dvbcfg_common.c \
+	libdvbcfg/dvbcfg_scanfile.c \
+	libdvbcfg/dvbcfg_zapchannel.c
+
+LOCAL_MODULE := libdvbcfg
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libdvbcfg_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libc
+
+include $(BUILD_SHARED_LIBRARY)
+
+# libdvben50221
+include $(CLEAR_VARS)
+
+libdvben50221_files := \
+	libdvben50221/asn_1.c \
+	libdvben50221/en50221_app_ai.c \
+	libdvben50221/en50221_app_auth.c \
+	libdvben50221/en50221_app_ca.c \
+	libdvben50221/en50221_app_datetime.c \
+	libdvben50221/en50221_app_dvb.c \
+	libdvben50221/en50221_app_epg.c \
+	libdvben50221/en50221_app_lowspeed.c \
+	libdvben50221/en50221_app_mmi.c \
+	libdvben50221/en50221_app_rm.c \
+	libdvben50221/en50221_app_smartcard.c \
+	libdvben50221/en50221_app_teletext.c \
+	libdvben50221/en50221_app_utils.c \
+	libdvben50221/en50221_session.c \
+	libdvben50221/en50221_stdcam.c \
+	libdvben50221/en50221_stdcam_hlci.c \
+	libdvben50221/en50221_stdcam_llci.c \
+	libdvben50221/en50221_transport.c 
+
+LOCAL_MODULE := libdvben50221
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes -DLOG_LEVEL=1
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libdvben50221_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libc libucsi
+
+include $(BUILD_SHARED_LIBRARY)
+
+# libdvbsec
+include $(CLEAR_VARS)
+
+libdvbsec_files := \
+	libdvbsec/dvbsec_api.c \
+	libdvbsec/dvbsec_cfg.c
+
+LOCAL_MODULE := libdvbsec
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libdvbsec_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libc libdvbcfg
+
+include $(BUILD_SHARED_LIBRARY)
+
+# libesg
+include $(CLEAR_VARS)
+
+libdvbesg_files := \
+	libesg/types.c \
+	libesg/bootstrap/access_descriptor.c \
+	libesg/bootstrap/provider_discovery_descriptor.c \
+	libesg/encapsulation/container.c \
+	libesg/encapsulation/data_repository.c \
+	libesg/encapsulation/fragment_management_information.c \
+	libesg/encapsulation/string_repository.c \
+	libesg/representation/encapsulated_textual_esg_xml_fragment.c \
+	libesg/representation/init_message.c \
+	libesg/representation/textual_decoder_init.c \
+	libesg/transport/session_partition_declaration.c
+
+LOCAL_MODULE := libesg
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libesg_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libc
+
+include $(BUILD_SHARED_LIBRARY)
+
+# libucsi
+include $(CLEAR_VARS)
+
+libucsi_files := \
+	libucsi/crc32.c \
+	libucsi/section_buf.c \
+	libucsi/transport_packet.c \
+	libucsi/atsc/atsc_text.c \
+	libucsi/atsc/cvct_section.c \
+	libucsi/atsc/dccsct_section.c \
+	libucsi/atsc/dcct_section.c \
+	libucsi/atsc/eit_section.c \
+	libucsi/atsc/ett_section.c \
+	libucsi/atsc/mgt_section.c \
+	libucsi/atsc/rrt_section.c \
+	libucsi/atsc/stt_section.c \
+	libucsi/atsc/tvct_section.c \
+	libucsi/atsc/types.c \
+	libucsi/dvb/bat_section.c \
+	libucsi/dvb/dit_section.c \
+	libucsi/dvb/eit_section.c \
+	libucsi/dvb/int_section.c \
+	libucsi/dvb/nit_section.c \
+	libucsi/dvb/rst_section.c \
+	libucsi/dvb/sdt_section.c \
+	libucsi/dvb/sit_section.c \
+	libucsi/dvb/st_section.c \
+	libucsi/dvb/tdt_section.c \
+	libucsi/dvb/tot_section.c \
+	libucsi/dvb/tva_container_section.c \
+	libucsi/dvb/types.c \
+	libucsi/mpeg/cat_section.c \
+	libucsi/mpeg/metadata_section.c \
+	libucsi/mpeg/odsmt_section.c \
+	libucsi/mpeg/pat_section.c \
+	libucsi/mpeg/pmt_section.c \
+	libucsi/mpeg/tsdt_section.c
+
+LOCAL_MODULE := libucsi
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_C_INCLUDES := external/dvb-apps/include
+LOCAL_SRC_FILES := $(libucsi_files)
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libc
+
+include $(BUILD_SHARED_LIBRARY)
+

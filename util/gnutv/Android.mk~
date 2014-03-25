@@ -1,0 +1,20 @@
+LOCAL_PATH := $(call my-dir)
+
+#########################
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES :=  \
+	gnutv.c \
+	gnutv_ca.o  \
+	gnutv_dvb.o \
+	gnutv_data.o
+
+LOCAL_MODULE := gnutv
+
+LOCAL_C_INCLUDES := external/dvb-apps/include external/dvb-apps/lib
+
+LOCAL_CFLAGS := -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libdvbcfg libdvben50221 libdvbsec libucsi
+
+include $(BUILD_EXECUTABLE)
+

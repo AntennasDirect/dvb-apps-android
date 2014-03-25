@@ -1,0 +1,20 @@
+LOCAL_PATH := $(call my-dir)
+
+#########################
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES :=  \
+	dvbscan.c \
+	dvbscan_structutils.c \
+	dvbscan_dvb.C \
+	dvbscan_atsc.C
+
+LOCAL_MODULE := dvbscan
+
+LOCAL_C_INCLUDES := external/dvb-apps/include external/dvb-apps/lib
+
+LOCAL_CFLAGS := -g -Wall -W -Wshadow -Wpointer-arith -Wstrict-prototypes
+LOCAL_SYSTEM_SHARED_LIBRARIES := libdvbapi libdvbcfg libdvbsec libucsi
+
+include $(BUILD_EXECUTABLE)
+
