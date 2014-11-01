@@ -33,9 +33,9 @@
 #include <assert.h>
 #include <glob.h>
 #include <ctype.h>
-#include <iconv.h>
 
 #if !defined(ANDROID)
+	#include <iconv.h>
 	#include <langinfo.h>
 #endif
 
@@ -956,6 +956,8 @@ static void descriptorcpy(char **dest, const unsigned char *src, size_t len)
 		char out_cs[strlen(output_charset) + 1 + sizeof(CS_OPTIONS)];
 
 		p = *dest;
+
+#if !defined(ANDROID)
 		strcpy(out_cs, output_charset);
 		strcat(out_cs, CS_OPTIONS);
 
@@ -970,6 +972,12 @@ static void descriptorcpy(char **dest, const unsigned char *src, size_t len)
 			iconv_close(cd);
 			*p = '\0';
 		}
+#else
+		memcpy(p, s, len);
+		p[len] = '\0';
+                warning("Conversion from %s to %s not supported\n",
+			type, output_charset);
+#endif
 	}
 
 	if (tmp)
