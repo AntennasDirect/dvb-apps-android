@@ -14,6 +14,7 @@ LOCAL_SRC_FILES :=  \
 	glob.c
 
 LOCAL_MODULE := scan
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_C_INCLUDES := external/dvb-apps/include external/dvb-apps/lib external/libiconv/libiconv-1.14/include
 
